@@ -6,11 +6,13 @@
 set -e
 
 # --- Safety check
-if [ -z "$GIT_DIR" ]; then
+if [ -z "${GIT_DIR}" ]; then
 	echo "Don't run this script from the command line." >&2
 	echo " (if you want, you could supply GIT_DIR)" >&2
 	exit 1
 fi
+
+HOOKS_DIR=${HOOKS_DIR:-${GIT_DIR}/hooks}
 
 if git rev-parse --verify HEAD >/dev/null 2>&1
 then
@@ -28,4 +30,4 @@ finish() {
 trap finish EXIT
 
 git diff --cached $against -- > ${tmp_diff_file}
-${GIT_DIR}/hooks/check-diff.py ${tmp_diff_file}
+${HOOKS_DIR}/check-diff.py ${tmp_diff_file}

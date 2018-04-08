@@ -14,7 +14,7 @@ oldrev="$2"
 newrev="$3"
 
 # --- Safety check
-if [ -z "$GIT_DIR" ]; then
+if [ -z "${GIT_DIR}" ]; then
 	echo "Don't run this script from the command line." >&2
 	echo " (if you want, you could supply GIT_DIR then run" >&2
 	echo "  $0 <ref> <oldrev> <newrev>)" >&2
@@ -25,6 +25,8 @@ if [ -z "$refname" -o -z "$oldrev" -o -z "$newrev" ]; then
 	echo "usage: $0 <ref> <oldrev> <newrev>" >&2
 	exit 1
 fi
+
+HOOKS_DIR=${HOOKS_DIR:-${GIT_DIR}/hooks}
 
 # --- Config
 # This boolean sets whether unannotated tags will be allowed into the repository.
@@ -79,7 +81,7 @@ case "$refname","$newrev_type" in
 			echo "*** Creating a branch is not allowed in this repository" >&2
 			exit 1
 		fi
-		${GIT_DIR}/hooks/check-commits.sh ${oldrev}..${newrev} || exit 1
+		${HOOKS_DIR}/check-commits.sh ${oldrev}..${newrev} || exit 1
 		;;
 	refs/heads/*,delete)
 		# delete branch
