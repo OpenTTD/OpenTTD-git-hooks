@@ -1,27 +1,6 @@
 #!/bin/sh
 #
-# An example hook script to block unannotated tags from entering.
-# Called by "git receive-pack" with arguments: refname sha1-old sha1-new
-#
-# To enable this hook, rename this file to "update".
-#
-# Config
-# ------
-# hooks.allowunannotated
-#   This boolean sets whether unannotated tags will be allowed into the
-#   repository.  By default they won't be.
-# hooks.allowdeletetag
-#   This boolean sets whether deleting tags will be allowed in the
-#   repository.  By default they won't be.
-# hooks.allowmodifytag
-#   This boolean sets whether a tag may be modified after creation. By default
-#   it won't be.
-# hooks.allowdeletebranch
-#   This boolean sets whether deleting branches will be allowed in the
-#   repository.  By default they won't be.
-# hooks.denycreatebranch
-#   This boolean sets whether remotely creating branches will be denied
-#   in the repository.  By default this is allowed.
+# Based on default update.sample hook
 #
 
 # --- Command line
@@ -43,20 +22,13 @@ if [ -z "$refname" -o -z "$oldrev" -o -z "$newrev" ]; then
 fi
 
 # --- Config
-allowunannotated=$(git config --bool hooks.allowunannotated)
-allowdeletebranch=$(git config --bool hooks.allowdeletebranch)
-denycreatebranch=$(git config --bool hooks.denycreatebranch)
-allowdeletetag=$(git config --bool hooks.allowdeletetag)
-allowmodifytag=$(git config --bool hooks.allowmodifytag)
+allowunannotated="false"
+allowdeletebranch="false"
+denycreatebranch="false"
+allowdeletetag="false"
+allowmodifytag="false"
 
-# check for no description
-projectdesc=$(sed -e '1q' "$GIT_DIR/description")
-case "$projectdesc" in
-"Unnamed repository"* | "")
-	echo "*** Project description file hasn't been set" >&2
-	exit 1
-	;;
-esac
+tmp_msg="/tmp/githook_update_msg.tmp"
 
 # --- Check types
 # if $newrev is 0000...0000, it's a commit to delete a ref.
@@ -99,6 +71,13 @@ case "$refname","$newrev_type" in
 			echo "*** Creating a branch is not allowed in this repository" >&2
 			exit 1
 		fi
+		hashes=$(git rev-list ${oldrev}..${newrev})
+		for h in ${hashes}
+		do
+			git diff --check ${h}^..${h} || exit 1
+			git cat-file commit ${h} | sed '1,/^$/d' > ${tmp_msg}
+			${GIT_DIR}/hooks/commit-msg ${tmp_msg} || exit 1
+		done
 		;;
 	refs/heads/*,delete)
 		# delete branch
