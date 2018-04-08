@@ -2,6 +2,11 @@
 #
 # Based on default update.sample hook
 #
+# Called by "git receive-pack" with arguments: refname sha1-old sha1-new
+#
+# It checks some general things like creating/removing branches/tags. See "Config".
+# Then it runs "check-commits.sh" for every pushed changeset.
+#
 
 # --- Command line
 refname="$1"
@@ -22,13 +27,16 @@ if [ -z "$refname" -o -z "$oldrev" -o -z "$newrev" ]; then
 fi
 
 # --- Config
+# This boolean sets whether unannotated tags will be allowed into the repository.
 allowunannotated="false"
+# This boolean sets whether deleting branches will be allowed in the repository.
 allowdeletebranch="false"
+# This boolean sets whether remotely creating branches will be denied in the repository.
 denycreatebranch="false"
+# This boolean sets whether deleting tags will be allowed in the repository.
 allowdeletetag="false"
+# This boolean sets whether a tag may be modified after creation.
 allowmodifytag="false"
-
-tmp_msg="/tmp/githook_update_msg.tmp"
 
 # --- Check types
 # if $newrev is 0000...0000, it's a commit to delete a ref.
@@ -71,13 +79,7 @@ case "$refname","$newrev_type" in
 			echo "*** Creating a branch is not allowed in this repository" >&2
 			exit 1
 		fi
-		hashes=$(git rev-list ${oldrev}..${newrev})
-		for h in ${hashes}
-		do
-			git diff --check ${h}^..${h} || exit 1
-			git cat-file commit ${h} | sed '1,/^$/d' > ${tmp_msg}
-			${GIT_DIR}/hooks/commit-msg ${tmp_msg} || exit 1
-		done
+		${GIT_DIR}/hooks/check-commits.sh ${oldrev}..${newrev} || exit 1
 		;;
 	refs/heads/*,delete)
 		# delete branch
