@@ -14,16 +14,19 @@ if [ -z "$GIT_DIR" ]; then
 	exit 1
 fi
 
-tmp_msg=$(mktemp)
-tmp_diff=$(mktemp)
+tmp_msg_file=$(mktemp)
+tmp_diff_file=$(mktemp)
+
+finish() {
+	rm -f ${tmp_msg_file} ${tmp_diff_file}
+}
+trap finish EXIT
 
 hashes=$(git rev-list "$1")
 for h in ${hashes}
 do
-	git diff ${h}^..${h} > ${tmp_diff}
-	${GIT_DIR}/hooks/check-diff.py ${tmp_diff}
-	git cat-file commit ${h} | sed '1,/^$/d' > ${tmp_msg}
-	${GIT_DIR}/hooks/commit-msg ${tmp_msg}
+	git diff ${h}^..${h} > ${tmp_diff_file}
+	${GIT_DIR}/hooks/check-diff.py ${tmp_diff_file}
+	git cat-file commit ${h} | sed '1,/^$/d' > ${tmp_msg_file}
+	${GIT_DIR}/hooks/commit-msg ${tmp_msg_file}
 done
-
-rm ${tmp_msg} ${tmp_diff}
