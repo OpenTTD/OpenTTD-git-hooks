@@ -131,14 +131,15 @@ git_good add case2.cpp
 test_commit_bad "Add: Whitespace"
 git_good reset case2.cpp
 
-#git_good add case3.cpp
-#test_commit_bad "Add: Tabs"
-#git_good reset case3.cpp
+git_good add case3.cpp
+test_commit_bad "Add: Tabs"
+git_good reset case3.cpp
 
 git_good add case4.cpp
 test_commit_bad "Add: Mixed indent"
 git_good reset case4.cpp
 
+# various cases in 3rdparty and non-c++ sources
 #git_good add case5.cpp
 #test_commit_bad "Add: Space indent"
 #git_good reset case5.cpp
