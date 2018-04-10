@@ -10,16 +10,18 @@ def checkascii(l):
 status = 0
 filename = None
 line = None
+tabindent = False
 
 for l in open(sys.argv[1]):
   l = l.rstrip("\n")
 
   if l.startswith("+++"):
     line = 1
-    filename = l[4:]
+    filename = l[4:].strip()
     if checkascii(filename):
       sys.stderr.write("*** Filename is non-ASCII: '{}'\n".format(filename))
       status = 1
+    tabindent = (filename.find("3rdparty") < 0) and (filename.endswith(".cpp") or filename.endswith(".hpp") or filename.endswith(".h"))
   elif l.startswith("@@"):
     line = int(l.split()[2].split(",")[0])
   elif l.startswith("+"):
@@ -32,6 +34,9 @@ for l in open(sys.argv[1]):
       status = 1
     if not PAT_TAB.match(l):
       sys.stderr.write("*** {}:{}: Invalid tab usage: '{}'\n".format(filename, line, l))
+      status = 1
+    if tabindent and l.startswith("  "):
+      sys.stderr.write("*** {}:{}: Use tabs for indentation: '{}'\n".format(filename, line, l))
       status = 1
     line += 1
   elif l.startswith(" "):

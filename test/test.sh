@@ -139,10 +139,9 @@ git_good add case4.cpp
 test_commit_bad "Add: Mixed indent"
 git_good reset case4.cpp
 
-# various cases in 3rdparty and non-c++ sources
-#git_good add case5.cpp
-#test_commit_bad "Add: Space indent"
-#git_good reset case5.cpp
+git_good add case5.cpp
+test_commit_bad "Add: Space indent"
+git_good reset case5.cpp
 
 git_good push
 
