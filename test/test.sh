@@ -108,7 +108,6 @@ test_commit_good "Fix abcdef, Fix #456: Commit and issue ref"
 
 cp case1.cpp case15.cpp
 git_good add case15.cpp
-test_commit_bad "#123, Fix abcdef: Issue and commit ref"
 test_commit_bad "Fix #123 abcdef: Issue and commit ref"
 test_commit_bad "Fix #123,abcdef: Issue and commit ref"
 test_commit_good "Fix #123, abcdef: Issue and commit ref"

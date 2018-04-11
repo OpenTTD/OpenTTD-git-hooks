@@ -29,5 +29,5 @@ do
 	git diff ${h}^..${h} > ${tmp_diff_file}
 	${HOOKS_DIR}/check-diff.py ${tmp_diff_file}
 	git cat-file commit ${h} | sed '1,/^$/d' > ${tmp_msg_file}
-	${HOOKS_DIR}/commit-msg ${tmp_msg_file}
+	${HOOKS_DIR}/check-message.py ${tmp_msg_file} server
 done
