@@ -29,5 +29,5 @@ finish() {
 }
 trap finish EXIT
 
-git diff --cached $against -- > ${tmp_diff_file}
+LC_ALL=C git diff --cached $against -- > ${tmp_diff_file}
 ${HOOKS_DIR}/check-diff.py ${tmp_diff_file}
