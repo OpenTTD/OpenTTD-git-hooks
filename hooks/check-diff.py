@@ -41,5 +41,8 @@ for l in open(sys.argv[1]):
     line += 1
   elif l.startswith(" "):
     line += 1
+  elif l == "\\ No newline at end of file":
+    sys.stderr.write("*** {}: No newline at end of file\n".format(filename))
+    status = 1
 
 sys.exit(status)

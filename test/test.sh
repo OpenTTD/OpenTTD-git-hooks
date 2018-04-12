@@ -142,6 +142,10 @@ git_good add case5.cpp
 test_commit_bad "Add: Space indent"
 git_good reset case5.cpp
 
+git_good add case6.cpp
+test_commit_bad "Add: NL at EOF"
+git_good reset case6.cpp
+
 git_good push
 
 # setup badguy
