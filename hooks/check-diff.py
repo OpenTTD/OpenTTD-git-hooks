@@ -10,9 +10,9 @@ def checkascii(l):
 status = 0
 filename = None
 line = None
-checktabs = False
+is_source = False
 
-for l in open(sys.argv[1]):
+for l in open(sys.argv[1], encoding="utf-8"):
   l = l.rstrip("\n")
 
   if l.startswith("+++"):
@@ -21,21 +21,21 @@ for l in open(sys.argv[1]):
     if checkascii(filename):
       sys.stderr.write("*** Filename is non-ASCII: '{}'\n".format(filename))
       status = 1
-    checktabs = (filename.find("3rdparty") < 0) and filename.endswith((".cpp", ".c", ".hpp", ".h"))
+    is_source = (filename.find("3rdparty") < 0) and filename.endswith((".cpp", ".c", ".hpp", ".h"))
   elif l.startswith("@@"):
     line = int(l.split()[2].split(",")[0])
   elif l.startswith("+"):
     l = l[1:]
-    if checkascii(l):
+    if is_source and checkascii(l):
       sys.stderr.write("*** {}:{}: Non-ASCII found: '{}'\n".format(filename, line, l))
       status = 1
     if l != l.rstrip():
       sys.stderr.write("*** {}:{}: Trailing whitespace: '{}'\n".format(filename, line, l))
       status = 1
-    if checktabs and not PAT_TAB.match(l):
+    if is_source and not PAT_TAB.match(l):
       sys.stderr.write("*** {}:{}: Invalid tab usage: '{}'\n".format(filename, line, l))
       status = 1
-    if checktabs and l.startswith("  "):
+    if is_source and l.startswith("  "):
       sys.stderr.write("*** {}:{}: Use tabs for indentation: '{}'\n".format(filename, line, l))
       status = 1
     line += 1

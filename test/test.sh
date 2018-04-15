@@ -71,6 +71,7 @@ test_commit_bad "-Add: No ref"
 test_commit_bad " Add: No ref"
 test_commit_bad "Add : No ref"
 test_commit_bad "Add:No ref"
+test_commit_bad "Add: Ümlaut"
 test_commit_good "Add: No ref"
 
 cp case1.cpp case11.cpp
