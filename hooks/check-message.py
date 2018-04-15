@@ -26,7 +26,7 @@ Examples:
 is_client = sys.argv[2] = 'client'
 
 first_line = True
-for l in open(sys.argv[1]):
+for l in open(sys.argv[1], encoding="utf-8"):
   l = l.rstrip("\n")
 
   # Skip comments on client side:
