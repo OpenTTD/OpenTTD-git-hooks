@@ -3,7 +3,7 @@
  */
 
 #ifdef FOO
-#	include <bar>
+	#include <bar>
 #endif
 
 int foo()

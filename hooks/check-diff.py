@@ -2,7 +2,7 @@
 
 import re, sys
 
-PAT_TAB = re.compile("\t*[^\t]*$")
+PAT_TAB = re.compile("#?\t*[^\t]*$")
 
 def checkascii(l):
   return any((ord(c) < 32 or ord(c) > 127) and c != '\t' for c in l)
@@ -34,6 +34,9 @@ for l in open(sys.argv[1], encoding="utf-8"):
       status = 1
     if is_source and not PAT_TAB.match(l):
       sys.stderr.write("*** {}:{}: Invalid tab usage: '{}'\n".format(filename, line, l))
+      status = 1
+    if is_source and (l.find("\t#") >= 0):
+      sys.stderr.write("*** {}:{}: Preprocessor hash is put into the first column, before the tab indentation: '{}'\n".format(filename, line, l))
       status = 1
     if is_source and l.startswith("  "):
       sys.stderr.write("*** {}:{}: Use tabs for indentation: '{}'\n".format(filename, line, l))

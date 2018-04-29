@@ -147,6 +147,10 @@ git_good add case6.cpp
 test_commit_bad "Add: NL at EOF"
 git_good reset case6.cpp
 
+git_good add case7.cpp
+test_commit_bad "Add: Preprocessor hash indented"
+git_good reset case7.cpp
+
 git_good push
 
 # setup badguy
