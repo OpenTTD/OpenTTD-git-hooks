@@ -44,7 +44,7 @@ for l in open(sys.argv[1], encoding="utf-8"):
     line += 1
   elif l.startswith(" "):
     line += 1
-  elif l == "\\ No newline at end of file":
+  elif l == "\\ No newline at end of file" and filename != "/dev/null":
     sys.stderr.write("*** {}: No newline at end of file\n".format(filename))
     status = 1
 
