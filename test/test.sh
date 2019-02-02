@@ -96,7 +96,6 @@ test_commit_good "Fix abcdef: Commit ref"
 cp case1.cpp case13.cpp
 git_good add case13.cpp
 test_commit_bad "Fix #123 #456: Two issue ref"
-test_commit_bad "Fix #123, #456: Two issue ref"
 test_commit_bad "Fix #123,Fix #456: Two issue ref"
 test_commit_good "Fix #123, Fix #456: Two issue ref"
 
@@ -104,7 +103,6 @@ cp case1.cpp case14.cpp
 git_good add case14.cpp
 test_commit_bad "abcdef, Fix #456: Commit and issue ref"
 test_commit_bad "Fix abcdef #456: Commit and issue ref"
-test_commit_bad "Fix abcdef, #456: Commit and issue ref"
 test_commit_good "Fix abcdef, Fix #456: Commit and issue ref"
 
 cp case1.cpp case15.cpp
@@ -126,6 +124,14 @@ test_commit_good "Fix fedcba, abcdef: Two commit ref"
 cp case1.cpp case18.cpp
 git_good add case18.cpp
 test_commit_good "Fix fedcba, Fix abcdef: Two commit ref"
+
+cp case1.cpp case19.cpp
+git_good add case19.cpp
+test_commit_good "Fix #123, #456: Two issue ref"
+
+cp case1.cpp case20.cpp
+git_good add case20.cpp
+test_commit_good "Fix abcdef, #456: Commit and issue ref"
 
 git_good add case2.cpp
 test_commit_bad "Add: Whitespace"
@@ -159,8 +165,8 @@ echo "badguy"
 git_good clone main.git badguy
 cd badguy
 
-cp case1.cpp case19.cpp
-git_good add case19.cpp
+cp case1.cpp case21.cpp
+git_good add case21.cpp
 test_commit_good "fixit"
 git_bad push
 

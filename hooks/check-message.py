@@ -10,6 +10,7 @@ MSG_PAT1 = re.compile(KEYWORDS + "$")
 MSG_PAT2 = re.compile(KEYWORDS + " " + ISSUE + "$")
 MSG_PAT3 = re.compile(KEYWORDS + " " + COMMIT + "$")
 MSG_PAT4 = re.compile(COMMIT + "$")
+MSG_PAT5 = re.compile(ISSUE + "$")
 
 ERROR = """
 *** First line of message must match: '<keyword>( #<issue>| <commit>(, (<keyword> #<issue>|<commit>))*)?: ([<section])? <Details>'
@@ -60,7 +61,7 @@ for l in open(sys.argv[1], encoding="utf-8"):
     prefixes = parts[0].split(", ")
     first_prefix = True
     for p in prefixes:
-      if (len(prefixes) == 1 and MSG_PAT1.match(p)) or MSG_PAT2.match(p) or MSG_PAT3.match(p) or (not first_prefix and MSG_PAT4.match(p)):
+      if (len(prefixes) == 1 and MSG_PAT1.match(p)) or MSG_PAT2.match(p) or MSG_PAT3.match(p) or (not first_prefix and (MSG_PAT4.match(p) or MSG_PAT5.match(p))):
         first_prefix = False
       else:
         sys.stderr.write(ERROR)
