@@ -1,0 +1,8 @@
+name: 'Commit checker'
+description: 'Checks the commits'
+runs:
+  using: 'node12'
+  main: 'action.js'
+branding:
+  icon: 'check-circle'
+  color: 'white'
