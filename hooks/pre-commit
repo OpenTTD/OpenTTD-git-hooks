@@ -5,6 +5,8 @@
 
 set -e
 
+GIT_DIR=${GIT_DIR:-$(git rev-parse --git-dir)}
+
 # --- Safety check
 if [ -z "${GIT_DIR}" ]; then
 	echo "Don't run this script from the command line." >&2
