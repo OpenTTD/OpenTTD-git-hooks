@@ -21,6 +21,7 @@ tmp_diff_file=$(mktemp)
 hashes=$(git rev-list "$1")
 for h in ${hashes}
 do
+	git log ${h}^..${h} --format="%n>>> %h %s <<<"
 	LC_ALL=C git diff ${h}^..${h} > ${tmp_diff_file}
 	${HOOKS_DIR}/check-diff.py ${tmp_diff_file} || true
 	git cat-file commit ${h} | sed '1,/^$/d' > ${tmp_msg_file}
