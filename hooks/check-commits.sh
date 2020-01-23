@@ -27,7 +27,7 @@ trap finish EXIT
 hashes=$(git rev-list "$1")
 for h in ${hashes}
 do
-	echo Checking ${h}... >&2
+	git log ${h}^..${h} --format='%n>>> %h >>> %s'
 	LC_ALL=C git diff ${h}^..${h} > ${tmp_diff_file}
 	${HOOKS_DIR}/check-diff.py ${tmp_diff_file} || failure=1
 	git cat-file commit ${h} | sed '1,/^$/d' > ${tmp_msg_file}
