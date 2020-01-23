@@ -24,6 +24,8 @@ finish() {
 }
 trap finish EXIT
 
+echo "::add-matcher::${HOOKS_DIR}/check-diff-matcher.json"
+
 hashes=$(git rev-list "$1")
 for h in ${hashes}
 do
@@ -33,5 +35,7 @@ do
 	git cat-file commit ${h} | sed '1,/^$/d' > ${tmp_msg_file}
 	${HOOKS_DIR}/check-message.py ${tmp_msg_file} server || failure=1
 done
+
+echo "::remove-matcher owner=check-diff::"
 
 return ${failure}
