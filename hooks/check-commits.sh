@@ -25,6 +25,7 @@ finish() {
 trap finish EXIT
 
 echo "::add-matcher::${HOOKS_DIR}/check-diff-matcher.json"
+echo "::add-matcher::${HOOKS_DIR}/check-message-matcher.json"
 
 hashes=$(git rev-list "$1")
 for h in ${hashes}
@@ -37,5 +38,6 @@ do
 done
 
 echo "::remove-matcher owner=check-diff::"
+echo "::remove-matcher owner=check-message::"
 
 return ${failure}

@@ -1,0 +1,13 @@
+{
+    "problemMatcher": [
+        {
+            "owner": "check-message",
+            "pattern": [
+                {
+                    "regexp": "^\\*{3}\\s(First.+)$",
+                    "message": 1,
+                }
+            ]
+        }
+    ]
+}
