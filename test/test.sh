@@ -41,6 +41,10 @@ git_good config --local core.whitespace trailing-space,space-before-tab,indent-w
 echo "init" > readme
 git_good add readme
 test_commit_good "Add: Init"
+cp ../cases/case6.cpp case61.cpp
+cp ../cases/case6.cpp case62.cpp
+git_good add case61.cpp case62.cpp
+test_commit_good "Add: Unchecked files with NL missing at end"
 
 cd ..
 mv main/.git main.git
@@ -146,6 +150,14 @@ git_good reset case5.cpp
 git_good add case6.cpp
 test_commit_bad "Add: NL at EOF"
 git_good reset case6.cpp
+git_good rm case61.cpp
+test_commit_good "Remove: File with missing NL at end"
+sed -i '{s/bar/pub/}' case62.cpp
+git_good add case62.cpp
+test_commit_bad "Change: Not fixing missing NL"
+echo >> case62.cpp
+git_good add case62.cpp
+test_commit_good "Fix: Missing NL at end of file"
 
 git_good add case7.cpp
 test_commit_bad "Add: Preprocessor hash indented"
