@@ -23,7 +23,7 @@ for l in open(sys.argv[1], encoding="utf-8"):
     if checkascii(filename):
       sys.stderr.write("*** Filename is non-ASCII: '{}'\n".format(filename))
       status = 1
-    is_source = (filename.find("3rdparty") < 0) and filename.endswith((".cpp", ".c", ".hpp", ".h"))
+    is_source = (filename.find("3rdparty") < 0) and filename.endswith((".cpp", ".c", ".hpp", ".h", ".mm"))
   elif l.startswith("@@"):
     line = int(l.split()[2].split(",")[0])
     lastline = None
