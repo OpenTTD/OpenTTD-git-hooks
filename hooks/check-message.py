@@ -2,7 +2,7 @@
 
 import re, sys
 
-KEYWORDS = "(Add|Feature|Change|Remove|Codechange|Cleanup|Fix|Revert|Doc|Update|Prepare)"
+KEYWORDS = "(Add|Feature|Change|Remove|Codechange|Cleanup|Fix|Revert|Doc|Update|Upgrade|Prepare)"
 ISSUE = "#\d+"
 COMMIT = "[0-9a-f]{4,}"
 
