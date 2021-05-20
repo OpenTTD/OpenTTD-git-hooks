@@ -1,0 +1,12 @@
+name: 'OpenTTD Commit Checker'
+author: 'OpenTTD Dev Team'
+description: 'Checker for commits done to OpenTTD projects'
+inputs: {}
+runs:
+  using: 'composite'
+  steps:
+  - run: ${{ github.action_path }}/action/entrypoint.sh ${{ github.action_path }}
+    shell: bash
+branding:
+  icon: 'code'
+  color: 'blue'

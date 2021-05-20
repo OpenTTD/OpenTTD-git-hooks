@@ -24,11 +24,6 @@ finish() {
 }
 trap finish EXIT
 
-if [ ${GITHUB_ACTIONS} ]; then
-	echo "::add-matcher::${HOOKS_DIR}/check-diff-matcher.json"
-	echo "::add-matcher::${HOOKS_DIR}/check-message-matcher.json"
-fi
-
 hashes=$(git rev-list "$1")
 for h in ${hashes}
 do
@@ -38,10 +33,5 @@ do
 	git cat-file commit ${h} | sed '1,/^$/d' > ${tmp_msg_file}
 	${HOOKS_DIR}/check-message.py ${tmp_msg_file} server || failure=1
 done
-
-if [ ${GITHUB_ACTIONS} ]; then
-	echo "::remove-matcher owner=check-diff::"
-	echo "::remove-matcher owner=check-message::"
-fi
 
 return ${failure}
