@@ -2,8 +2,24 @@
 
 import re, sys
 
-KEYWORDS = "(Add|Feature|Change|Remove|Codechange|Codefix|Cleanup|Fix|Revert|Doc|Update|Upgrade|Prepare)"
-ISSUE = "#\d+"
+# Player facing changes:
+KEYWORDS = "(Add|"        # : Similar to Feature, but for small functionalities.
+KEYWORDS += "Change|"     # : Changing existing behavior to such an extent as to be player visible.
+KEYWORDS += "Doc|"        # : Update player-facing documentation contained in `docs/` folder or developer facing documentation in the various markdown files.
+KEYWORDS += "Feature|"    # : Adding a significant new functionality to the game. This can be small in code-size, but is meant for bigger things from a player perspective.
+KEYWORDS += "Fix|"        # : Fixing an issue with the game (as seen by the player).
+KEYWORDS += "Remove|"     # : Completely removing a functionality.
+KEYWORDS += "Revert|"     # : Reverting an earlier Feature / Add / Change / Fix / Remove.
+KEYWORDS += "Update|"     # : Translation updates.
+
+# Developer only visible changes:
+KEYWORDS += "Codechange|" # : Changes to the code the player is not going to notice. refactors, modernization, etc.
+KEYWORDS += "Codefix|"    # : Fixing problems in earlier commits that players won't notice: wrong comments, missing files, CI changes.
+KEYWORDS += "Cleanup|"    # : Similar to Codechange, but when it is more about removing old code, rather than an actual change.
+KEYWORDS += "Prepare"     #
+KEYWORDS += "Upgrade)"    #
+
+ISSUE = "#\\d+"
 COMMIT = "[0-9a-f]{4,}"
 
 MSG_PAT1 = re.compile(KEYWORDS + "$")
