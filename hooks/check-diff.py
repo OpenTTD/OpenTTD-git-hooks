@@ -3,6 +3,7 @@
 import re, sys
 
 PAT_TAB = re.compile("#?\t*[^\t]*$")
+PAT_BAD_COMMENT = re.compile(r"\s*//")
 
 def checkascii(l):
   return any((ord(c) < 32 or ord(c) > 127) and c != '\t' for c in l)
@@ -44,6 +45,9 @@ for l in open(sys.argv[1], encoding="utf-8"):
       status = 1
     if is_source and l.startswith("  "):
       sys.stderr.write("*** {}:{}: Use tabs for indentation: '{}'\n".format(filename, line, l))
+      status = 1
+    if is_source and PAT_BAD_COMMENT.match(l):
+      sys.stderr.write("*** {}:{}: Use /* */ for free standing comments: '{}'\n".format(filename, line, l))
       status = 1
     line += 1
   elif l.startswith(" "):
