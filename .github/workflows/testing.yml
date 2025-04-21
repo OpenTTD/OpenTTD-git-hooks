@@ -1,0 +1,19 @@
+name: Testing
+
+on:
+  pull_request:
+    branches:
+    - main
+
+jobs:
+  testing:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Test
+      run: |
+        git config --global user.name "$(git log -n 1 --format=%cn)"
+        git config --global user.email "$(git log -n 1 --format=%ce)"
+        make
