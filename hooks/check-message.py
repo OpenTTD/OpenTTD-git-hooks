@@ -3,7 +3,7 @@
 import re, sys
 
 KEYWORDS = "(Add|Feature|Change|Remove|Codechange|Codefix|Cleanup|Fix|Revert|Doc|Update|Upgrade|Prepare)"
-ISSUE = "#\d+"
+ISSUE = r"#\d+"
 COMMIT = "[0-9a-f]{4,}"
 
 MSG_PAT1 = re.compile(KEYWORDS + "$")
