@@ -40,12 +40,12 @@ for l in open(sys.argv[1], encoding="utf-8"):
 
   # Check trailing whitespace
   if l != l.rstrip():
-    sys.stderr.write("*** Message contains trailing whitespace: '{}'\n".format(l))
+    sys.stderr.write("*** Message contains trailing whitespace: {!a}\n".format(l))
     sys.exit(1)
 
   # Check ASCII, and no control chars
   if any(ord(c) < 32 or ord(c) > 127 for c in l):
-    sys.stderr.write("*** Message contains non-ASCII characters or tabs: '{}'\n".format(l))
+    sys.stderr.write("*** Message contains non-ASCII characters or tabs: {!a}\n".format(l))
     sys.exit(1)
 
   # Check first line
