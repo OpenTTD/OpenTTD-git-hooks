@@ -36,6 +36,7 @@ rm -rf main main.git goodguy badguy
 # setup main
 git_good init main
 cd main
+git_good config --local user.email tester@acme.local
 git_good config --local core.autocrlf input
 git_good config --local core.whitespace trailing-space,space-before-tab,indent-with-non-tab
 echo "init" > readme
@@ -59,6 +60,7 @@ cd ../..
 echo "goodguy"
 git_good clone main.git goodguy
 cd goodguy
+git_good config --local user.email tester@acme.local
 git_good config --local core.autocrlf input
 git_good config --local core.whitespace trailing-space,space-before-tab,indent-with-non-tab
 cd .git/hooks
@@ -170,6 +172,7 @@ cd ..
 echo "badguy"
 git_good clone main.git badguy
 cd badguy
+git_good config --local user.email tester@acme.local
 
 cp case1.cpp case19.cpp
 git_good add case19.cpp
@@ -182,3 +185,5 @@ git_good commit --amend -m "Fix: Message"
 git_bad push
 
 cd ..
+
+echo "All tests passed successfully"
