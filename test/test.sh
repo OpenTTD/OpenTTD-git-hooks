@@ -163,6 +163,14 @@ git_good add case7.cpp
 test_commit_bad "Add: Preprocessor hash indented"
 git_good reset case7.cpp
 
+git_good add case8.cpp
+test_commit_bad "Add: Wrong comment style"
+git_good reset case8.cpp
+
+git_good add case9.cpp
+test_commit_bad "Add: Wrong comment style"
+git_good reset case9.cpp
+
 git_good push
 
 # setup badguy
